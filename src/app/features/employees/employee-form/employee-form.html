@@ -1,0 +1,109 @@
+<div class="employee-form-modern">
+  <div class="form-toolbar">
+    <button mat-flat-button color="basic" class="back-link"
+      [routerLink]="isNew ? '/employees' : ['/employees', id]">
+      <mat-icon>arrow_back</mat-icon>
+      <span>{{ isNew ? 'All Employees' : 'Employee Details' }}</span>
+    </button>
+    <span class="form-title">{{ isNew ? 'Add Employee' : 'Edit Employee' }}</span>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Personal Section -->
+    <section class="form-block">
+      <h2><mat-icon class="block-icon">person</mat-icon> Personal Information</h2>
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Full Name</mat-label>
+          <input matInput formControlName="fullName">
+          <mat-error *ngIf="form.get('fullName')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" type="email">
+          <mat-error *ngIf="form.get('email')?.hasError('required')">Required</mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('email')">Invalid email</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Phone</mat-label>
+          <input matInput formControlName="phone">
+          <mat-error *ngIf="form.get('phone')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Date of Birth</mat-label>
+          <input matInput formControlName="dateOfBirth" type="date">
+          <mat-error *ngIf="form.get('dateOfBirth')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+      </div>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address">
+        <mat-error *ngIf="form.get('address')?.hasError('required')">Required</mat-error>
+      </mat-form-field>
+    </section>
+    <!-- Job Section -->
+    <section class="form-block">
+      <h2><mat-icon class="block-icon">work</mat-icon> Job Information</h2>
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Employee ID</mat-label>
+          <input matInput formControlName="employeeId">
+          <mat-error *ngIf="form.get('employeeId')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Job Title</mat-label>
+          <input matInput formControlName="jobTitle">
+          <mat-error *ngIf="form.get('jobTitle')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Department</mat-label>
+          <input matInput formControlName="department">
+          <mat-error *ngIf="form.get('department')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Hire Date</mat-label>
+          <input matInput formControlName="hireDate" type="date">
+          <mat-error *ngIf="form.get('hireDate')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Salary</mat-label>
+          <input matInput formControlName="salary" type="number">
+          <mat-error *ngIf="form.get('salary')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Employment Type</mat-label>
+          <input matInput formControlName="employmentType">
+          <mat-error *ngIf="form.get('employmentType')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+      </div>
+    </section>
+    <!-- Emergency Section -->
+    <section class="form-block">
+      <h2><mat-icon class="block-icon">call</mat-icon> Emergency Contact</h2>
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Contact Name</mat-label>
+          <input matInput formControlName="emergencyContactName">
+          <mat-error *ngIf="form.get('emergencyContactName')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Contact Phone</mat-label>
+          <input matInput formControlName="emergencyContactPhone">
+          <mat-error *ngIf="form.get('emergencyContactPhone')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Relationship</mat-label>
+          <input matInput formControlName="emergencyContactRelationship">
+          <mat-error *ngIf="form.get('emergencyContactRelationship')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+      </div>
+    </section>
+
+    <div class="action-row modern">
+      <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+        <mat-icon>save</mat-icon> Save
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,82 @@
+<div class="dashboard-root">
+  <h1>Dashboard</h1>
+  <div class="dashboard-metrics">
+    <mat-card class="metric-card">
+      <div class="metric-icon"><mat-icon>groups</mat-icon></div>
+      <div class="metric-title">Total Employees</div>
+      <div class="metric-value">{{ totalEmployees }}</div>
+    </mat-card>
+    <mat-card class="metric-card">
+      <div class="metric-icon"><mat-icon>person_add</mat-icon></div>
+      <div class="metric-title">New This Month</div>
+      <div class="metric-value">{{ newThisMonth }}</div>
+    </mat-card>
+    <mat-card class="metric-card">
+      <div class="metric-icon"><mat-icon>apps</mat-icon></div>
+      <div class="metric-title">Departments</div>
+      <div class="metric-value">{{ departmentss }}</div>
+    </mat-card>
+    <mat-card class="metric-card">
+      <div class="metric-icon"><mat-icon>attach_money</mat-icon></div>
+      <div class="metric-title">Average Salary</div>
+      <div class="metric-value">${{ avgSalary | number }}</div>
+    </mat-card>
+  </div>
+
+  <div class="dashboard-charts">
+    <mat-card class="chart-card">
+      <div class="chart-title">Employees by Department</div>
+      <canvas baseChart
+        [data]="barChartData"
+        [type]="barChartType"
+        [options]="barChartOptions">
+      </canvas>
+    </mat-card>
+    <mat-card class="chart-card">
+      <div class="chart-title">New Hires Trend</div>
+      <canvas baseChart
+        [data]="lineChartData"
+        [type]="lineChartType"
+        [options]="lineChartOptions">
+      </canvas>
+    </mat-card>
+  </div>
+</div>
+
+<div class="dashboard-actions">
+  <button mat-raised-button color="primary" [routerLink]="['/employees/new']">
+    <mat-icon>add</mat-icon>
+    Add Employee
+  </button>
+  <button mat-stroked-button color="primary" [routerLink]="['/employees']">
+    View All Employees
+  </button>
+</div>
+
+<mat-card class="recent-employees-card">
+  <div class="recent-title">Recent Employees</div>
+  <table class="recent-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Job Title</th>
+        <th>Hire Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of recentEmployees">
+  <td>{{ employee.fullName }}</td>
+  <td>{{ employee.department }}</td>
+  <td>{{ employee.jobTitle }}</td>
+  <td>{{ employee.hireDate | date:'MMMM d, y' }}</td>
+        <td>
+          <button mat-icon-button color="primary" [routerLink]="['/employees', employee.id]">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</mat-card>

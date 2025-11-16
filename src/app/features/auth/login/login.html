@@ -1,0 +1,31 @@
+<div class="login-bg">
+  <div class="login-card">
+    <h1 class="login-title">Login</h1>
+    <div class="login-desc">Sign in to your account</div>
+
+<form [formGroup]="isRegistering ? registerForm : loginForm"
+      (ngSubmit)="isRegistering ? onRegister() : onLogin()"
+      class="auth-form">
+      <label>
+        Email <span class="req">*</span><br>
+        <input formControlName="email" type="email" class="login-input" autocomplete="username" required />
+      </label>
+      <label>
+        Password <span class="req">*</span><br>
+        <input formControlName="password" type="password" class="login-input" autocomplete="current-password" required />
+      </label>
+      <button type="submit" class="login-btn" [disabled]="loginForm.invalid">Login</button>
+    </form>
+
+    <div class="login-bottom-helper">
+      Don’t have an account?
+        <a routerLink="/register" class="register-link">Register</a>
+    </div>
+
+    <div class="login-credentials">
+      <b>Demo Credentials:</b><br>
+      Admin: <span>admin@company.com</span> / <span>Admin@123</span><br>
+      User: <span>user@company.com</span> / <span>User@123</span>
+    </div>
+  </div>
+</div>

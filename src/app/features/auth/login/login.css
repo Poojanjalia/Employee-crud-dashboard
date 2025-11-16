@@ -1,0 +1,123 @@
+body, .login-bg {
+  background: #fcfdf7; /* off-white, subtle green-tint bg */
+  min-height: 100vh;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+.login-bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 92vh;
+}
+
+.login-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px 0 #b7bcbe21;
+  padding: 2.5rem 2.5rem 1.2rem 2.5rem;
+  width: 420px;
+  max-width: 95vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #17606c;
+  margin-bottom: 8px;
+}
+.login-desc {
+  color: #74757a;
+  font-size: 1.08rem;
+  margin-bottom: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.login-form label {
+  font-weight: 500;
+  color: #19545e;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.login-input {
+  background: #e8f1fd;
+  border: 1px solid #dde9ef;
+  border-radius: 7px;
+  font-size: 1.13rem;
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 3px;
+  margin-bottom: 2px;
+  transition: border-color 0.22s, background 0.18s;
+}
+
+.login-input:focus {
+  border-color: #128292;
+  background: #f5fbfe;
+  outline: none;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 11px 0;
+  margin-top: 2px;
+  color: #fff;
+  background: #197981;
+  border: none;
+  border-radius: 7px;
+  font-size: 1.1rem;
+  font-weight: 590;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.login-btn:disabled {
+  background: #bedbe3;
+  color: #a1babe;
+  cursor: not-allowed;
+}
+
+.login-bottom-helper {
+  margin: 18px 0 0;
+  text-align: center;
+  color: #737e87;
+  font-size: 1rem;
+}
+.register-link {
+  color: #228b90;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 5px;
+}
+.register-link:hover {
+  text-decoration: underline;
+  color: #127379;
+}
+
+.login-credentials {
+  background: #f1f7fc;
+  border-radius: 10px;
+  margin-top: 22px;
+  padding: 13px 16px;
+  font-size: 1rem;
+  color: #21527b;
+  box-shadow: 0 0 0 0;
+}
+.login-credentials span {
+  font-family: "Roboto Mono", monospace;
+  color: #1b668a;
+}
+
+.req {
+  color: #ca3120;
+  font-size: 1.1em;
+}

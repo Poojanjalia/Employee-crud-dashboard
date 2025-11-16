@@ -1,0 +1,11 @@
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="brand">EMS</div>
+    <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+    <a routerLink="/employees" routerLinkActive="active">Employees</a>
+  </div>
+  <div class="nav-right">
+    <span class="user-info">{{ userName }} ({{ userRole }})</span>
+    <button mat-stroked-button color="primary" class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+</nav>

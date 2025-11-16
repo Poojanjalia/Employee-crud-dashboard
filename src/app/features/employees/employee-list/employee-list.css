@@ -1,0 +1,46 @@
+.employee-list-root {
+  padding: 30px 0 0 0;
+}
+.employee-toolbar {
+  display: flex; justify-content: flex-end; margin-bottom: 14px;
+}
+.employee-filters {
+  display: flex; gap: 18px; margin-bottom: 18px; align-items: center;
+}
+mat-form-field.search-field {
+  width: 360px; min-width: 210px;
+}
+.loading-wrap {
+  text-align: center; padding: 40px;
+}
+.list-card {
+  border-radius: 15px;
+  padding: 10px 0 0 0;
+  box-shadow: 0 3px 16px #bbb9;
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  min-width: 690px;
+  background: #fff;
+  border-radius: 12px;
+}
+th.mat-header-cell {
+  color: #20434c;
+  font-weight: 650;
+  font-size: 1.06em;
+  background: #f9faf8;
+}
+td.mat-cell {
+  font-size: 1em;
+  color: #214a55;
+}
+td.mat-cell, th.mat-header-cell {
+  padding: 16px 10px;
+}
+tr.mat-header-row, tr.mat-row {
+  border-bottom: 1px solid #eeeff0;
+}
+tr:last-child {
+  border-bottom: none;
+}

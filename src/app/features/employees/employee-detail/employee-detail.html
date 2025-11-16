@@ -1,0 +1,90 @@
+<div class="employee-detail-modern">
+  <div class="detail-toolbar">
+    <button mat-flat-button color="basic" class="back-link" [routerLink]="['/employees']">
+      <mat-icon>arrow_back</mat-icon>
+      <span>All Employees</span>
+    </button>
+    <div class="actions">
+      <button mat-stroked-button color="primary" [routerLink]="['/employees', employee?.id, 'edit']">
+        <mat-icon>edit</mat-icon> Edit
+      </button>
+      <button mat-icon-button color="warn" matTooltip="Delete" (click)="onDelete()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <section class="info-block">
+    <h2><mat-icon class="block-icon accent">person</mat-icon> Personal Information</h2>
+    <div class="info-grid">
+      <div>
+        <div class="info-label">Full Name</div>
+        <div class="info-value">{{ employee?.fullName }}</div>
+      </div>
+      <div>
+        <div class="info-label">Email</div>
+        <div class="info-value">{{ employee?.email }}</div>
+      </div>
+      <div>
+        <div class="info-label">Phone</div>
+        <div class="info-value">{{ employee?.phone }}</div>
+      </div>
+      <div>
+        <div class="info-label">Date of Birth</div>
+        <div class="info-value">{{ employee?.dateOfBirth | date:'MMMM d, y'}}</div>
+      </div>
+    </div>
+    <div class="address-row">
+      <div class="info-label">Address</div>
+      <div class="info-value">{{ employee?.address }}</div>
+    </div>
+  </section>
+
+  <section class="info-block">
+    <h2><mat-icon class="block-icon accent">work</mat-icon> Job Information</h2>
+    <div class="info-grid">
+      <div>
+        <div class="info-label">Employee ID</div>
+        <div class="info-value">{{ employee?.employeeId }}</div>
+      </div>
+      <div>
+        <div class="info-label">Job Title</div>
+        <div class="info-value">{{ employee?.jobTitle }}</div>
+      </div>
+      <div>
+        <div class="info-label">Department</div>
+        <div class="info-value">{{ employee?.department }}</div>
+      </div>
+      <div>
+        <div class="info-label">Hire Date</div>
+        <div class="info-value">{{ employee?.hireDate | date:'MMMM d, y' }}</div>
+      </div>
+      <div>
+        <div class="info-label">Salary</div>
+        <div class="info-value">${{ employee?.salary | number }}</div>
+      </div>
+      <div>
+        <div class="info-label">Employment Type</div>
+        <div class="info-value">{{ employee?.employmentType }}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-block">
+    <h2><mat-icon class="block-icon">call</mat-icon> Emergency Contact</h2>
+    <div class="info-grid info-grid-3">
+      <div>
+        <div class="info-label">Contact Name</div>
+        <div class="info-value">{{ employee?.emergencyContactName }}</div>
+      </div>
+      <div>
+        <div class="info-label">Contact Phone</div>
+        <div class="info-value">{{ employee?.emergencyContactPhone }}</div>
+      </div>
+      <div>
+        <div class="info-label">Relationship</div>
+        <div class="info-value">{{ employee?.emergencyContactRelationship }}</div>
+      </div>
+    </div>
+  </section>
+</div>

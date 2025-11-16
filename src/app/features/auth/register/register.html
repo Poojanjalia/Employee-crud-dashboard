@@ -1,0 +1,33 @@
+<div class="register-bg">
+  <div class="register-card">
+    <h1 class="register-title">Register</h1>
+    <div class="register-desc">Create a new account</div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="register-form">
+      <label>
+        First Name <span class="req">*</span><br>
+        <input formControlName="firstName" type="text" class="register-input" required />
+      </label>
+      <label>
+        Last Name <span class="req">*</span><br>
+        <input formControlName="lastName" type="text" class="register-input" required />
+      </label>
+      <label>
+        Email <span class="req">*</span><br>
+        <input formControlName="email" type="email" class="register-input" required />
+      </label>
+      <label>
+        Password <span class="req">*</span><br>
+        <input formControlName="password" type="password" class="register-input" required minlength="6" />
+      </label>
+      <button type="submit" class="register-btn" [disabled]="registerForm.invalid">Register</button>
+    </form>
+
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+    <div class="register-bottom-helper">
+      Already have an account? <a routerLink="/login" class="login-link">Login</a>
+    </div>
+  </div>
+</div>

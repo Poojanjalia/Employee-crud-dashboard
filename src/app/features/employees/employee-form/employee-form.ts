@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Employee, EmployeeService } from '../services/employee.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
+import { Employee, EmployeeServiceAPI } from '../../../core/services/employee';
 
 @Component({
   selector: 'app-employee-form',
@@ -25,16 +25,16 @@ export class EmployeeFormComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private employeeService: EmployeeService
+    private employeeServiceApi: EmployeeServiceAPI
   ) {}
   
-  ngOnInit() {
+   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id') || undefined;
     this.isNew = !this.id; 
-    
+
     if (!this.isNew) {
-      this.employeeService.getEmployees().subscribe(employees => {
-        this.employee = employees.find(e => e.id === this.id);
+      this.employeeServiceApi.getEmployee(Number(this.id)).subscribe(emp => {
+        this.employee = emp;
         this.initForm();
       });
     } else {
@@ -63,9 +63,18 @@ export class EmployeeFormComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      const updated = { ...this.employee, ...this.form.value };
-      alert('Employee would be saved:\n\n' + JSON.stringify(updated, null, 2));
-      this.router.navigate(['/employees', updated.id]);
+      const changed: Employee = { ...this.employee, ...this.form.value };
+      if (this.isNew) {
+        this.employeeServiceApi.addEmployee(changed).subscribe({
+          next: emp => this.router.navigate(['/employees']),
+          error: err => console.error('Add failed', err)
+        });
+      } else {
+        this.employeeServiceApi.updateEmployee(Number(this.id), changed).subscribe({
+          next: () => this.router.navigate(['/employees']),
+          error: err => console.error('Update failed', err)
+        });
+      }
     }
   }
 }

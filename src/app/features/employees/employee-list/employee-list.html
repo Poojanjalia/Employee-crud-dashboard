@@ -22,7 +22,7 @@
 
   <div *ngIf="!loading">
     <mat-card class="list-card">
-      <table mat-table [dataSource]="filteredEmployees">
+      <table mat-table [dataSource]="dataSource">
         <!-- Name -->
         <ng-container matColumnDef="fullName">
           <th mat-header-cell *matHeaderCellDef> Name </th>

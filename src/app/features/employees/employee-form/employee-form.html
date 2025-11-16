@@ -1,12 +1,12 @@
 <div class="employee-form-modern">
   <div class="form-toolbar">
-    <button mat-flat-button color="basic" class="back-link"
-      [routerLink]="isNew ? '/employees' : ['/employees', id]">
+    <button mat-flat-button color="basic" class="back-link" [routerLink]="isNew ? '/employees' : ['/employees', id]">
       <mat-icon>arrow_back</mat-icon>
       <span>{{ isNew ? 'All Employees' : 'Employee Details' }}</span>
     </button>
     <span class="form-title">{{ isNew ? 'Add Employee' : 'Edit Employee' }}</span>
   </div>
+
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <!-- Personal Section -->
     <section class="form-block">
@@ -40,6 +40,7 @@
         <mat-error *ngIf="form.get('address')?.hasError('required')">Required</mat-error>
       </mat-form-field>
     </section>
+
     <!-- Job Section -->
     <section class="form-block">
       <h2><mat-icon class="block-icon">work</mat-icon> Job Information</h2>
@@ -78,6 +79,7 @@
         </mat-form-field>
       </div>
     </section>
+
     <!-- Emergency Section -->
     <section class="form-block">
       <h2><mat-icon class="block-icon">call</mat-icon> Emergency Contact</h2>

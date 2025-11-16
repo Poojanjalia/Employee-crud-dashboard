@@ -1,25 +1,77 @@
 <div class="login-bg">
   <div class="login-card">
-    <h1 class="login-title">Login</h1>
-    <div class="login-desc">Sign in to your account</div>
+    <h1 class="login-title">{{ isRegistering ? 'Register' : 'Login' }}</h1>
+    <div class="login-desc">
+      {{ isRegistering ? 'Create a new account' : 'Sign in to your account' }}
+    </div>
 
-<form [formGroup]="isRegistering ? registerForm : loginForm"
-      (ngSubmit)="isRegistering ? onRegister() : onLogin()"
+    <form [formGroup]="isRegistering ? registerForm : loginForm" (ngSubmit)="isRegistering ? onRegister() : onLogin()"
       class="auth-form">
-      <label>
-        Email <span class="req">*</span><br>
-        <input formControlName="email" type="email" class="login-input" autocomplete="username" required />
-      </label>
-      <label>
-        Password <span class="req">*</span><br>
-        <input formControlName="password" type="password" class="login-input" autocomplete="current-password" required />
-      </label>
-      <button type="submit" class="login-btn" [disabled]="loginForm.invalid">Login</button>
+      <div *ngIf="!isRegistering">
+        <label>
+          Email <span class="req">*</span><br>
+          <input formControlName="email" type="email" class="login-input" autocomplete="username" required />
+          <div class="err" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+            Enter a valid email
+          </div>
+        </label>
+        <label>
+          Password <span class="req">*</span><br>
+          <input formControlName="password" type="password" class="login-input" autocomplete="current-password"
+            required />
+          <div class="err" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            Password required
+          </div>
+        </label>
+        <button type="submit" class="login-btn" [disabled]="loginForm.invalid">
+          Login
+        </button>
+      </div>
+      <div *ngIf="isRegistering">
+        <label>
+          First Name <span class="req">*</span><br>
+          <input formControlName="firstName" type="text" class="login-input" required />
+        </label>
+        <label>
+          Last Name <span class="req">*</span><br>
+          <input formControlName="lastName" type="text" class="login-input" required />
+        </label>
+        <label>
+          Email <span class="req">*</span><br>
+          <input formControlName="email" type="email" class="login-input" required />
+          <div class="err" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+            Enter a valid email
+          </div>
+        </label>
+        <label>
+          Password <span class="req">*</span><br>
+          <input formControlName="password" type="password" class="login-input" required />
+          <div class="err" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+            Password must be at least 6 characters
+          </div>
+        </label>
+        <button type="submit" class="login-btn" [disabled]="registerForm.invalid">
+          Register
+        </button>
+      </div>
     </form>
 
     <div class="login-bottom-helper">
-      Don’t have an account?
-        <a routerLink="/register" class="register-link">Register</a>
+      <span *ngIf="!isRegistering">
+        Don’t have an account?
+        <a (click)="switchMode()" class="register-link" style="cursor:pointer;">Register</a>
+      </span>
+      <span *ngIf="isRegistering">
+        Already have an account?
+        <a (click)="switchMode()" class="register-link" style="cursor:pointer;">Login</a>
+      </span>
+    </div>
+
+    <div *ngIf="errorMessage" class="err-message">
+      {{ errorMessage }}
+    </div>
+    <div *ngIf="infoMessage" class="info-message">
+      {{ infoMessage }}
     </div>
 
     <div class="login-credentials">

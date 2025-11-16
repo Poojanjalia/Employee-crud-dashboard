@@ -8,8 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
-import { EmployeeService, Employee } from '../services/employee.service';
 import { RouterModule } from '@angular/router';
+import { EmployeeServiceAPI, Employee } from '../../../core/services/employee';
 
 @Component({
   selector: 'app-employee-list',
@@ -22,16 +22,16 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./employee-list.css']
 })
 export class EmployeeListComponent implements OnInit {
-  employees: Employee[] = [];
+  dataSource: Employee[] = [];
   loading = false;
   searchText = '';
   displayedColumns = ['fullName', 'email', 'department', 'jobTitle', 'hireDate', 'actions'];
 
-  constructor(private employeeService: EmployeeService) {}
+  constructor(private employeeServiceApi: EmployeeServiceAPI) {}
 
   get filteredEmployees(): Employee[] {
     const text = this.searchText.toLowerCase();
-    return this.employees.filter(emp =>
+    return this.dataSource.filter(emp =>
       emp.fullName.toLowerCase().includes(text) ||
       emp.email.toLowerCase().includes(text) ||
       emp.department.toLowerCase().includes(text)
@@ -44,16 +44,24 @@ export class EmployeeListComponent implements OnInit {
 
   loadEmployees() {
     this.loading = true;
-    this.employeeService.getEmployees().subscribe(employees => {
-      this.employees = employees;
-      this.loading = false;
+    this.employeeServiceApi.getEmployees().subscribe({
+      next: employees => {
+        this.dataSource = employees;
+        this.loading = false;
+      },
+      error: err => {
+        console.error(err);
+        this.loading = false;
+      }
     });
   }
 
   onDelete(employee: Employee) {
-    if (confirm(`Delete employee ${employee.fullName}?`)) {
-      // Implement real delete logic here
-      this.employees = this.employees.filter(e => e.id !== employee.id);
-    }
+  if (confirm(`Delete employee ${employee.fullName}?`)) {
+    this.employeeServiceApi.deleteEmployee(employee.id!).subscribe({
+      next: () => this.loadEmployees(), // Reload table after delete
+      error: err => console.error('Delete failed: ', err)
+    });
   }
+}
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Employee, EmployeeService } from '../services/employee.service';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from "@angular/material/icon";
+import { Employee, EmployeeServiceAPI } from '../../../core/services/employee';
 
 @Component({
   selector: 'app-employee-detail',
@@ -20,13 +20,13 @@ throw new Error('Method not implemented.');
 
   constructor(
     private route: ActivatedRoute,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeServiceAPI
   ) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.employeeService.getEmployees().subscribe((employees) => {
-      this.employee = employees.find(e => e.id === id);
+      //this.employee = employees.find(e => e.id === id);
     });
   }
 }

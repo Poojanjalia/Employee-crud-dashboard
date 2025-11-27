@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -27,7 +27,7 @@ export class EmployeeListComponent implements OnInit {
   searchText = '';
   displayedColumns = ['fullName', 'email', 'department', 'jobTitle', 'hireDate', 'actions'];
 
-  constructor(private employeeServiceApi: EmployeeServiceAPI) {}
+  constructor(private employeeServiceApi: EmployeeServiceAPI, private cdr: ChangeDetectorRef) {}
 
   get filteredEmployees(): Employee[] {
     const text = this.searchText.toLowerCase();
@@ -54,6 +54,7 @@ export class EmployeeListComponent implements OnInit {
         this.loading = false;
       }
     });
+    this.cdr.detectChanges();
   }
 
   onDelete(employee: Employee) {

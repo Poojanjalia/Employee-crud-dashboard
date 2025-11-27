@@ -1,5 +1,6 @@
 <div class="dashboard-root">
   <h1>Dashboard</h1>
+
   <!-- Metrics Section -->
   <div class="dashboard-metrics">
     <mat-card class="metric-card">
@@ -20,7 +21,7 @@
     <mat-card class="metric-card">
       <div class="metric-icon"><mat-icon>attach_money</mat-icon></div>
       <div class="metric-title">Average Salary</div>
-      <div class="metric-value">${{ avgSalary | number }}</div>
+      <div class="metric-value">{{ avgSalary | currency:'USD':'symbol':'1.0-0' }}</div>
     </mat-card>
   </div>
 
@@ -28,13 +29,22 @@
   <div class="dashboard-charts">
     <mat-card class="chart-card">
       <div class="chart-title">Employees by Department</div>
-      <canvas baseChart [data]="barChartData" [type]="barChartType" [options]="barChartOptions">
-      </canvas>
+      <!-- ADDED *ngIf HERE -->
+      <div *ngIf="barChartData" style="display: block;">
+        <canvas baseChart [data]="barChartData" [type]="barChartType" [options]="barChartOptions">
+        </canvas>
+      </div>
+      <div *ngIf="!barChartData" class="loading-text">Loading Chart...</div>
     </mat-card>
+
     <mat-card class="chart-card">
       <div class="chart-title">New Hires Trend</div>
-      <canvas baseChart [data]="lineChartData" [type]="lineChartType" [options]="lineChartOptions">
-      </canvas>
+      <!-- ADDED *ngIf HERE -->
+      <div *ngIf="lineChartData" style="display: block;">
+        <canvas baseChart [data]="lineChartData" [type]="lineChartType" [options]="lineChartOptions">
+        </canvas>
+      </div>
+      <div *ngIf="!lineChartData" class="loading-text">Loading Chart...</div>
     </mat-card>
   </div>
 
@@ -49,7 +59,29 @@
     </button>
   </div>
 
-  <!-- Recent Employees Section -->
+  <!-- Recent Employees Section (COMPLETED) -->
   <mat-card class="recent-employees-card">
     <div class="recent-title">Recent Employees</div>
     <table class="recent-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Department</th>
+          <th>Role</th>
+          <th>Joined</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emp of recentEmployees">
+          <td>{{ emp.fullName }}</td>
+          <td>{{ emp.department }}</td>
+          <td>{{ emp.jobTitle }}</td>
+          <td>{{ emp.hireDate | date:'mediumDate' }}</td>
+        </tr>
+        <tr *ngIf="recentEmployees.length === 0">
+          <td colspan="4">No employees found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card>
+</div>

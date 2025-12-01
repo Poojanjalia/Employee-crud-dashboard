@@ -44,21 +44,21 @@ export class EmployeeFormComponent implements OnInit {
           const data = response.value || response.result || response;
 
           this.employee = {
-            id: data.id || data.Id,
-            fullName: data.fullName || data.FullName,
-            email: data.email || data.Email,
-            phone: data.phone || data.Phone,
-            dateOfBirth: data.dateOfBirth || data.DateOfBirth,
-            address: data.address || data.Address,
-            employeeId: data.employeeId || data.EmployeeId,
-            jobTitle: data.jobTitle || data.JobTitle,
-            department: data.department || data.Department,
-            hireDate: data.hireDate || data.HireDate,
-            salary: data.salary || data.Salary,
-            employmentType: data.employmentType || data.EmploymentType,
-            emergencyContactName: data.emergencyContactName || data.EmergencyContactName,
-            emergencyContactPhone: data.emergencyContactPhone || data.EmergencyContactPhone,
-            emergencyContactRelationship: data.emergencyContactRelationship || data.EmergencyContactRelationship
+            id: data.id,
+            fullName: data.fullName,
+            email: data.email,
+            phone: data.phone,
+            dateOfBirth: data.dateOfBirth,
+            address: data.address,
+            employeeId: data.employeeID,
+            jobTitle: data.jobTitle,
+            department: data.department,
+            hireDate: data.hireDate,
+            salary: data.salary,
+            employmentType: data.employmentType,
+            emergencyContactName: data.emergencyContactName,
+            emergencyContactPhone: data.emergencyContactPhone,
+            emergencyContactRelationship: data.relationship
           };
 
           this.updateFormValues();

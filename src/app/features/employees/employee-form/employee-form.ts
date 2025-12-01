@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,58 +21,138 @@ export class EmployeeFormComponent implements OnInit {
   employee?: Employee;
   id?: string;
   isNew = false;
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private employeeServiceApi: EmployeeServiceAPI
+    private employeeServiceApi: EmployeeServiceAPI,
+    private cdr: ChangeDetectorRef
   ) {}
   
    ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id') || undefined;
     this.isNew = !this.id; 
 
-    if (!this.isNew) {
-      this.employeeServiceApi.getEmployee(Number(this.id)).subscribe(emp => {
-        this.employee = emp;
-        this.initForm();
+    this.initForm(); 
+
+    if (!this.isNew && this.id) {
+      this.employeeServiceApi.getEmployee(Number(this.id)).subscribe({
+        next: (response: any) => {
+          console.log('API Details Response:', response);
+
+          const data = response.value || response.result || response;
+
+          this.employee = {
+            id: data.id || data.Id,
+            fullName: data.fullName || data.FullName,
+            email: data.email || data.Email,
+            phone: data.phone || data.Phone,
+            dateOfBirth: data.dateOfBirth || data.DateOfBirth,
+            address: data.address || data.Address,
+            employeeId: data.employeeId || data.EmployeeId,
+            jobTitle: data.jobTitle || data.JobTitle,
+            department: data.department || data.Department,
+            hireDate: data.hireDate || data.HireDate,
+            salary: data.salary || data.Salary,
+            employmentType: data.employmentType || data.EmploymentType,
+            emergencyContactName: data.emergencyContactName || data.EmergencyContactName,
+            emergencyContactPhone: data.emergencyContactPhone || data.EmergencyContactPhone,
+            emergencyContactRelationship: data.emergencyContactRelationship || data.EmergencyContactRelationship
+          };
+
+          this.updateFormValues();
+          this.cdr.detectChanges();
+        },
+        error: (err) => console.error('Error fetching employee:', err)
       });
-    } else {
-      this.initForm();
     }
   }
 
   initForm() {
     this.form = this.fb.group({
-      fullName: [this.employee?.fullName || '', Validators.required],
-      email: [this.employee?.email || '', [Validators.required, Validators.email]],
-      phone: [this.employee?.phone || '', Validators.required],
-      dateOfBirth: [this.employee?.dateOfBirth || '', Validators.required],
-      address: [this.employee?.address || '', Validators.required],
-      employeeId: [this.employee?.employeeId || '', Validators.required],
-      jobTitle: [this.employee?.jobTitle || '', Validators.required],
-      department: [this.employee?.department || '', Validators.required],
-      hireDate: [this.employee?.hireDate || '', Validators.required],
-      salary: [this.employee?.salary || '', Validators.required],
-      employmentType: [this.employee?.employmentType || '', Validators.required],
-      emergencyContactName: [this.employee?.emergencyContactName || '', Validators.required],
-      emergencyContactPhone: [this.employee?.emergencyContactPhone || '', Validators.required],
-      emergencyContactRelationship: [this.employee?.emergencyContactRelationship || '', Validators.required]
+      fullName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      address: ['', Validators.required],
+      employeeId: ['', Validators.required],
+      jobTitle: ['', Validators.required],
+      department: ['', Validators.required],
+      hireDate: ['', Validators.required],
+      salary: ['', Validators.required],
+      employmentType: ['', Validators.required],
+      emergencyContactName: ['', Validators.required],
+      emergencyContactPhone: ['', Validators.required],
+      emergencyContactRelationship: ['', Validators.required]
     });
+  }
+
+  updateFormValues() {
+    if (!this.employee) return;
+
+    this.form.patchValue({
+      fullName: this.employee.fullName,
+      email: this.employee.email,
+      phone: this.employee.phone,
+      dateOfBirth: this.formatDate(this.employee.dateOfBirth),
+      address: this.employee.address,
+      employeeId: this.employee.employeeId,
+      jobTitle: this.employee.jobTitle,
+      department: this.employee.department,
+      hireDate: this.formatDate(this.employee.hireDate),
+      salary: this.employee.salary,
+      employmentType: this.employee.employmentType,
+      emergencyContactName: this.employee.emergencyContactName,
+      emergencyContactPhone: this.employee.emergencyContactPhone,
+      emergencyContactRelationship: this.employee.emergencyContactRelationship
+    });
+  }
+
+  formatDate(dateString: string | undefined): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; 
   }
 
   onSubmit() {
     if (this.form.valid) {
-      const changed: Employee = { ...this.employee, ...this.form.value };
+      const formValues = this.form.value;
+      const apiPayload: any = {
+        id: this.isNew ? 0 : Number(this.id),
+        fullName: formValues.fullName,
+        email: formValues.email,
+        phone: formValues.phone,
+        dateOfBirth: formValues.dateOfBirth,
+        address: formValues.address,
+        employeeId: formValues.employeeId,
+        jobTitle: formValues.jobTitle,
+        department: formValues.department,
+        hireDate: formValues.hireDate,
+        salary: formValues.salary,
+        employmentType: formValues.employmentType,
+        emergencyContactName: formValues.emergencyContactName,
+        emergencyContactPhone: formValues.emergencyContactPhone,
+        Relationship: formValues.emergencyContactRelationship 
+      };
+
+      console.log('Sending to API:', apiPayload);
+
       if (this.isNew) {
-        this.employeeServiceApi.addEmployee(changed).subscribe({
-          next: emp => this.router.navigate(['/employees']),
-          error: err => console.error('Add failed', err)
+        this.employeeServiceApi.addEmployee(apiPayload).subscribe({
+          next: () => this.router.navigate(['/employees']),
+          error: err => {
+            console.error('Add failed', err);
+            alert('Error saving: ' + JSON.stringify(err.error.errors || err.message));
+          }
         });
       } else {
-        this.employeeServiceApi.updateEmployee(Number(this.id), changed).subscribe({
+        this.employeeServiceApi.updateEmployee(Number(this.id), apiPayload).subscribe({
           next: () => this.router.navigate(['/employees']),
-          error: err => console.error('Update failed', err)
+          error: err => {
+            console.error('Update failed', err);
+            alert('Error saving: ' + JSON.stringify(err.error.errors || err.message));
+          }
         });
       }
     }
